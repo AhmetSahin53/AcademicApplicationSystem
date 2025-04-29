@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>İlan Başvuruları</h2>
+    <h4><%= ilan.baslik %> - <%= ilan.kadro_turu %></h4>
+    <%- include('../partials/messages') %>
+    
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5>��lan Bilgileri</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Birim:</strong> <%= ilan.birim %></p>
+            <p><strong>Anabilim Dalı:</strong> <%= ilan.anabilim_dali %></p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Başlangıç Tarihi:</strong> <%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></p>
+            <p><strong>Bitiş Tarihi:</strong> <%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <h5>Başvurular</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Aday Adı</th>
+                <th>Başvuru Tarihi</th>
+                <th>Değerlendirme Durumu</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (basvurular.length > 0) { %>
+                <% basvurular.forEach(basvuru => { %>
+                  <tr>
+                    <td><%= basvuru.aday_adi %></td>
+                    <td><%= new Date(basvuru.basvuru_tarihi).toLocaleDateString('tr-TR') %></td>
+                    <td>
+                      <span class="badge bg-<%= basvuru.degerlendirme_durumu === 'Tamamlandı' ? 'success' : 'warning' %>">
+                        <%= basvuru.degerlendirme_durumu %>
+                      </span>
+                    </td>
+                    <td>
+                      <a href="/juri/basvuru-detay/<%= basvuru.id %>" class="btn btn-primary btn-sm">Değerlendir</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="4" class="text-center">Bu ilana henüz başvuru yapılmamıştır.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <a href="/juri" class="btn btn-secondary">Geri Dön</a>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+</body>
+</html>

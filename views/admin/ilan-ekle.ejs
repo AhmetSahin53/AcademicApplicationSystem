@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>Yeni İlan Ekle</h2>
+    <%- include('../partials/messages') %>
+    
+    <div class="card">
+      <div class="card-body">
+        <form action="/admin/ilan-ekle" method="POST">
+          <div class="mb-3">
+            <label for="baslik" class="form-label">İlan Başlığı</label>
+            <input type="text" class="form-control" id="baslik" name="baslik" required>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="kadro_turu" class="form-label">Kadro Türü</label>
+                <select class="form-select" id="kadro_turu" name="kadro_turu" required>
+                  <option value="">Seçiniz</option>
+                  <option value="Dr. Öğr. Üyesi">Dr. Öğr. Üyesi</option>
+                  <option value="Doçent">Doçent</option>
+                  <option value="Profesör">Profesör</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="birim" class="form-label">Birim</label>
+                <input type="text" class="form-control" id="birim" name="birim" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="anabilim_dali" class="form-label">Anabilim Dalı</label>
+                <input type="text" class="form-control" id="anabilim_dali" name="anabilim_dali" required>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="baslangic_tarihi" class="form-label">Başlangıç Tarihi</label>
+                <input type="date" class="form-control" id="baslangic_tarihi" name="baslangic_tarihi" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="bitis_tarihi" class="form-label">Bitiş Tarihi</label>
+                <input type="date" class="form-control" id="bitis_tarihi" name="bitis_tarihi" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="durum" class="form-label">İlan Durumu</label>
+                <select class="form-select" id="durum" name="durum" required>
+                  <option value="Aktif" selected>Aktif</option>
+                  <option value="Pasif">Pasif</option>
+                  <option value="Yayımlanacak">Yayımlanacak</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="aciklama" class="form-label">İlan Açıklaması</label>
+            <textarea class="form-control" id="aciklama" name="aciklama" rows="5" required></textarea>
+          </div>
+          
+          <div class="d-flex justify-content-between">
+            <a href="/admin" class="btn btn-secondary">İptal</a>
+            <button type="submit" class="btn btn-primary">İlanı Kaydet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+  
+  <script>
+    // Bugünün tarihini al
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Başlangıç tarihi için minimum değeri bugün olarak ayarla
+    document.getElementById('baslangic_tarihi').setAttribute('min', today);
+    
+    // Başlangıç tarihi değiştiğinde bitiş tarihi için minimum değeri güncelle
+    document.getElementById('baslangic_tarihi').addEventListener('change', function() {
+      document.getElementById('bitis_tarihi').setAttribute('min', this.value);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>İlan Kriterleri</h2>
+    <h4><%= ilan.baslik %> - <%= ilan.kadro_turu %></h4>
+    <%- include('../partials/messages') %>
+    
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5>İlan Bilgileri</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Birim:</strong> <%= ilan.birim %></p>
+            <p><strong>Anabilim Dalı:</strong> <%= ilan.anabilim_dali %></p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Başlangıç Tarihi:</strong> <%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></p>
+            <p><strong>Bitiş Tarihi:</strong> <%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <h5>Başvuru Kriterleri</h5>
+      </div>
+      <div class="card-body">
+        <form action="/yonetici/ilan-kriterleri/<%= ilan.id %>" method="POST">
+          <div id="kriterler-container">
+            <% if (kriterler && kriterler.length > 0) { %>
+              <% kriterler.forEach((kriter, index) => { %>
+                <div class="kriter-item mb-4 p-3 border rounded">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="mb-3">
+                        <label for="kriter-tipi-<%= index %>" class="form-label">Kriter Tipi</label>
+                        <select class="form-select" id="kriter-tipi-<%= index %>" name="kriter_tipi[]" required>
+                          <option value="">Seçiniz</option>
+                          <option value="A1" <%= kriter.kriter_tipi === 'A1' ? 'selected' : '' %>>A1 - SCI, SCI-Expanded, SSCI veya AHCI kapsamındaki dergilerde yayımlanmış makale</option>
+                          <option value="A2" <%= kriter.kriter_tipi === 'A2' ? 'selected' : '' %>>A2 - Uluslararası alan indekslerinde taranan dergilerde yayımlanmış makale</option>
+                          <option value="A3" <%= kriter.kriter_tipi === 'A3' ? 'selected' : '' %>>A3 - ULAKBİM TR Dizin tarafından taranan ulusal hakemli dergilerde yayımlanmış makale</option>
+                          <option value="A4" <%= kriter.kriter_tipi === 'A4' ? 'selected' : '' %>>A4 - Diğer uluslararası hakemli dergilerde yayımlanmış makale</option>
+                          <option value="A5" <%= kriter.kriter_tipi === 'A5' ? 'selected' : '' %>>A5 - Diğer ulusal hakemli dergilerde yayımlanmış makale</option>
+                          <option value="B1" <%= kriter.kriter_tipi === 'B1' ? 'selected' : '' %>>B1 - Uluslararası kongre/sempozyum bildirisi</option>
+                          <option value="B2" <%= kriter.kriter_tipi === 'B2' ? 'selected' : '' %>>B2 - Ulusal kongre/sempozyum bildirisi</option>
+                          <option value="C1" <%= kriter.kriter_tipi === 'C1' ? 'selected' : '' %>>C1 - Uluslararası kitap/kitap bölümü</option>
+                          <option value="C2" <%= kriter.kriter_tipi === 'C2' ? 'selected' : '' %>>C2 - Ulusal kitap/kitap bölümü</option>
+                          <option value="D1" <%= kriter.kriter_tipi === 'D1' ? 'selected' : '' %>>D1 - Atıf</option>
+                          <option value="E1" <%= kriter.kriter_tipi === 'E1' ? 'selected' : '' %>>E1 - Proje</option>
+                          <option value="F1" <%= kriter.kriter_tipi === 'F1' ? 'selected' : '' %>>F1 - Patent</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="mb-3">
+                        <label for="kriter-aciklama-<%= index %>" class="form-label">Açıklama</label>
+                        <input type="text" class="form-control" id="kriter-aciklama-<%= index %>" name="kriter_aciklama[]" value="<%= kriter.kriter_aciklama %>" required>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="mb-3">
+                        <label for="min-puan-<%= index %>" class="form-label">Minimum Puan</label>
+                        <input type="number" class="form-control" id="min-puan-<%= index %>" name="min_puan[]" value="<%= kriter.min_puan %>" min="0" required>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="mb-3">
+                        <label for="min-adet-<%= index %>" class="form-label">Minimum Adet</label>
+                        <input type="number" class="form-control" id="min-adet-<%= index %>" name="min_adet[]" value="<%= kriter.min_adet %>" min="0" required>
+                      </div>
+                    </div>
+                  </div>
+                  <% if (index > 0) { %>
+                    <button type="button" class="btn btn-sm btn-danger remove-kriter">Kriteri Kaldır</button>
+                  <% } %>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="kriter-item mb-4 p-3 border rounded">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="mb-3">
+                      <label for="kriter-tipi-0" class="form-label">Kriter Tipi</label>
+                      <select class="form-select" id="kriter-tipi-0" name="kriter_tipi[]" required>
+                        <option value="">Seçiniz</option>
+                        <option value="A1">A1 - SCI, SCI-Expanded, SSCI veya AHCI kapsamındaki dergilerde yayımlanmış makale</option>
+                        <option value="A2">A2 - Uluslararası alan indekslerinde taranan dergilerde yayımlanmış makale</option>
+                        <option value="A3">A3 - ULAKBİM TR Dizin tarafından taranan ulusal hakemli dergilerde yayımlanmış makale</option>
+                        <option value="A4">A4 - Diğer uluslararası hakemli dergilerde yayımlanmış makale</option>
+                        <option value="A5">A5 - Diğer ulusal hakemli dergilerde yayımlanmış makale</option>
+                        <option value="B1">B1 - Uluslararası kongre/sempozyum bildirisi</option>
+                        <option value="B2">B2 - Ulusal kongre/sempozyum bildirisi</option>
+                        <option value="C1">C1 - Uluslararası kitap/kitap bölümü</option>
+                        <option value="C2">C2 - Ulusal kitap/kitap bölümü</option>
+                        <option value="D1">Atıf</option>
+                        <option value="E1">Proje</option>
+                        <option value="F1">Patent</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="mb-3">
+                      <label for="kriter-aciklama-0" class="form-label">Açıklama</label>
+                      <input type="text" class="form-control" id="kriter-aciklama-0" name="kriter_aciklama[]" required>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="mb-3">
+                      <label for="min-puan-0" class="form-label">Minimum Puan</label>
+                      <input type="number" class="form-control" id="min-puan-0" name="min_puan[]" min="0" value="0" required>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="mb-3">
+                      <label for="min-adet-0" class="form-label">Minimum Adet</label>
+                      <input type="number" class="form-control" id="min-adet-0" name="min_adet[]" min="0" value="0" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          </div>
+          
+          <button type="button" class="btn btn-outline-primary mb-4" id="add-kriter">Kriter Ekle</button>
+          
+          <div class="d-flex justify-content-between">
+            <a href="/yonetici" class="btn btn-secondary">İptal</a>
+            <button type="submit" class="btn btn-primary">Kriterleri Kaydet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+  
+  <script>
+    $(document).ready(function() {
+      // Kriter ekleme
+      let kriterCount = $('#kriterler-container .kriter-item').length;
+      
+      $('#add-kriter').click(function() {
+        const newKriter = `
+          <div class="kriter-item mb-4 p-3 border rounded">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="mb-3">
+                  <label for="kriter-tipi-${kriterCount}" class="form-label">Kriter Tipi</label>
+                  <select class="form-select" id="kriter-tipi-${kriterCount}" name="kriter_tipi[]" required>
+                    <option value="">Seçiniz</option>
+                    <option value="A1">A1 - SCI, SCI-Expanded, SSCI veya AHCI kapsamındaki dergilerde yayımlanmış makale</option>
+                    <option value="A2">A2 - Uluslararası alan indekslerinde taranan dergilerde yayımlanmış makale</option>
+                    <option value="A3">A3 - ULAKBİM TR Dizin tarafından taranan ulusal hakemli dergilerde yayımlanmış makale</option>
+                    <option value="A4">A4 - Diğer uluslararası hakemli dergilerde yayımlanmış makale</option>
+                    <option value="A5">A5 - Diğer ulusal hakemli dergilerde yayımlanmış makale</option>
+                    <option value="B1">B1 - Uluslararası kongre/sempozyum bildirisi</option>
+                    <option value="B2">B2 - Ulusal kongre/sempozyum bildirisi</option>
+                    <option value="C1">C1 - Uluslararası kitap/kitap bölümü</option>
+                    <option value="C2">C2 - Ulusal kitap/kitap bölümü</option>
+                    <option value="D1">D1 - Atıf</option>
+                    <option value="E1">E1 - Proje</option>
+                    <option value="F1">F1 - Patent</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="mb-3">
+                  <label for="kriter-aciklama-${kriterCount}" class="form-label">Açıklama</label>
+                  <input type="text" class="form-control" id="kriter-aciklama-${kriterCount}" name="kriter_aciklama[]" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3">
+                  <label for="min-puan-${kriterCount}" class="form-label">Minimum Puan</label>
+                  <input type="number" class="form-control" id="min-puan-${kriterCount}" name="min_puan[]" min="0" value="0" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3">
+                  <label for="min-adet-${kriterCount}" class="form-label">Minimum Adet</label>
+                  <input type="number" class="form-control" id="min-adet-${kriterCount}" name="min_adet[]" min="0" value="0" required>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-kriter">Kriteri Kaldır</button>
+          </div>
+        `;
+        $('#kriterler-container').append(newKriter);
+        kriterCount++;
+      });
+      
+      // Kriter kaldırma
+      $(document).on('click', '.remove-kriter', function() {
+        $(this).closest('.kriter-item').remove();
+      });
+
+      // Form gönderilmeden önce kontrol
+      $('form').on('submit', function(e) {
+        const kriterTipi = $('select[name="kriter_tipi[]"]');
+        const kriterAciklama = $('input[name="kriter_aciklama[]"]');
+        
+        let valid = true;
+        
+        // En az bir kriter seçilmiş mi kontrol et
+        if (kriterTipi.length === 0) {
+          alert('En az bir kriter eklemelisiniz!');
+          valid = false;
+        }
+        
+        // Tüm kriterlerin doldurulduğunu kontrol et
+        kriterTipi.each(function(index) {
+          if (!$(this).val()) {
+            alert('Lütfen tüm kriter tiplerini seçin!');
+            valid = false;
+            return false;
+          }
+        });
+        
+        kriterAciklama.each(function(index) {
+          if (!$(this).val()) {
+            alert('Lütfen tüm kriter açıklamalarını doldurun!');
+            valid = false;
+            return false;
+          }
+        });
+        
+        if (!valid) {
+          e.preventDefault();
+        } else {
+          console.log('Form gönderiliyor...');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

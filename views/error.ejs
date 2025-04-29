@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('partials/head') %>
+  <title>Hata</title>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  
+  <div class="container mt-5">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Hata!</h4>
+      <p><%= message %></p>
+      <% if (error.status) { %>
+        <hr>
+        <p class="mb-0">Hata Kodu: <%= error.status %></p>
+      <% } %>
+    </div>
+    <a href="/" class="btn btn-primary">Ana Sayfaya Dön</a>
+  </div>
+  
+  <%- include('partials/footer') %>
+</body>
+</html>

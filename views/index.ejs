@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  
+  <div class="container mt-5">
+    <div class="jumbotron">
+      <h1 class="display-4">Kocaeli Üniversitesi</h1>
+      <h2 class="display-5">Akademik Personel Başvuru Sistemi</h2>
+      <p class="lead">Bu sistem, akademik personel adaylarının ilgili kadrolara başvurmasını sağlarken, yönetici ve admin kullanıcıları için ilan ve başvuru kriterlerinin düzenlenmesine olanak tanımaktadır.</p>
+      <hr class="my-4">
+      <p>Sisteme giriş yapmak veya yeni kayıt oluşturmak için aşağıdaki butonları kullanabilirsiniz.</p>
+      
+      <div class="d-flex gap-3 mt-4">
+        <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Giriş Yap</a>
+        <a class="btn btn-success btn-lg" href="/auth/register" role="button">Kayıt Ol</a>
+      </div>
+    </div>
+    
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adaylar</h5>
+            <p class="card-text">Akademik kadrolara başvuru yapabilen kullanıcılar.</p>
+            <ul>
+              <li>İlanları görüntüleme</li>
+              <li>Başvuru yapma</li>
+              <li>Belge yükleme</li>
+              <li>Başvuru durumu takibi</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Yöneticiler</h5>
+            <p class="card-text">Başvuru kriterlerini belirleyen ve sistemin genel kurallarını yöneten kullanıcılar.</p>
+            <ul>
+              <li>Başvuru kriterleri belirleme</li>
+              <li>Jüri üyesi atama</li>
+              <li>Başvuruları değerlendirme</li>
+              <li>Sonuçları bildirme</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Jüri Üyeleri</h5>
+            <p class="card-text">Adayların başvuru belgelerini inceleyen ve değerlendirme raporu oluşturan kullanıcılar.</p>
+            <ul>
+              <li>Başvuru belgelerini inceleme</li>
+              <li>Değerlendirme raporu oluşturma</li>
+              <li>Olumlu/olumsuz nihai değerlendirme</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('partials/footer') %>
+</body>
+</html>

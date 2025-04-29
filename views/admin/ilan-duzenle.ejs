@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>İlan Düzenle</h2>
+    <%- include('../partials/messages') %>
+    
+    <div class="card">
+      <div class="card-body">
+        <form action="/admin/ilan-duzenle/<%= ilan.id %>?_method=PUT" method="POST">
+          <div class="mb-3">
+            <label for="baslik" class="form-label">İlan Başlığı</label>
+            <input type="text" class="form-control" id="baslik" name="baslik" value="<%= ilan.baslik %>" required>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="kadro_turu" class="form-label">Kadro Türü</label>
+                <select class="form-select" id="kadro_turu" name="kadro_turu" required>
+                  <option value="">Seçiniz</option>
+                  <option value="Dr. Öğr. Üyesi" <%= ilan.kadro_turu === 'Dr. Öğr. Üyesi' ? 'selected' : '' %>>Dr. Öğr. Üyesi</option>
+                  <option value="Doçent" <%= ilan.kadro_turu === 'Doçent' ? 'selected' : '' %>>Doçent</option>
+                  <option value="Profesör" <%= ilan.kadro_turu === 'Profesör' ? 'selected' : '' %>>Profesör</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="birim" class="form-label">Birim</label>
+                <input type="text" class="form-control" id="birim" name="birim" value="<%= ilan.birim %>" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="anabilim_dali" class="form-label">Anabilim Dalı</label>
+                <input type="text" class="form-control" id="anabilim_dali" name="anabilim_dali" value="<%= ilan.anabilim_dali %>" required>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="baslangic_tarihi" class="form-label">Başlangıç Tarihi</label>
+                <input type="date" class="form-control" id="baslangic_tarihi" name="baslangic_tarihi" value="<%= ilan.baslangic_tarihi.toISOString().split('T')[0] %>" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="bitis_tarihi" class="form-label">Bitiş Tarihi</label>
+                <input type="date" class="form-control" id="bitis_tarihi" name="bitis_tarihi" value="<%= ilan.bitis_tarihi.toISOString().split('T')[0] %>" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="durum" class="form-label">İlan Durumu</label>
+                <select class="form-select" id="durum" name="durum" required>
+                  <option value="Aktif" <%= ilan.durum === 'Aktif' || !ilan.durum ? 'selected' : '' %>>Aktif</option>
+                  <option value="Pasif" <%= ilan.durum === 'Pasif' ? 'selected' : '' %>>Pasif</option>
+                  <option value="Yayımlanacak" <%= ilan.durum === 'Yayımlanacak' || ilan.durum === 'Taslak' ? 'selected' : '' %>>Yayımlanacak</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="aciklama" class="form-label">İlan Açıklaması</label>
+            <textarea class="form-control" id="aciklama" name="aciklama" rows="5" required><%= ilan.aciklama %></textarea>
+          </div>
+          
+          <div class="d-flex justify-content-between">
+            <a href="/admin" class="btn btn-secondary">İptal</a>
+            <button type="submit" class="btn btn-primary">İlanı Güncelle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+</body>
+</html>

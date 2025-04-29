@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>Başvurularım</h2>
+    <%- include('../partials/messages') %>
+    
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>İlan Başlığı</th>
+                <th>Kadro Türü</th>
+                <th>Başvuru Tarihi</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (basvurular.length > 0) { %>
+                <% basvurular.forEach(basvuru => { %>
+                  <tr>
+                    <td><%= basvuru.ilan_baslik %></td>
+                    <td><%= basvuru.kadro_turu %></td>
+                    <td><%= new Date(basvuru.basvuru_tarihi).toLocaleDateString('tr-TR') %></td>
+                    <td>
+                      <span class="badge bg-<%= basvuru.durum === 'Beklemede' ? 'warning' : (basvuru.durum === 'Onaylandı' ? 'success' : 'danger') %>">
+                        <%= basvuru.durum %>
+                      </span>
+                    </td>
+                    <td>
+                      <a href="/aday/basvuru-detay/<%= basvuru.id %>" class="btn btn-primary btn-sm">Detay</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="5" class="text-center">Henüz başvurunuz bulunmamaktadır.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <a href="/aday" class="btn btn-secondary">Geri Dön</a>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+</body>
+</html>

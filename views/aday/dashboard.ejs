@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>Aktif İlanlar</h2>
+    <%- include('../partials/messages') %>
+    
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">Tüm İlanlar</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="dr-tab" data-bs-toggle="tab" data-bs-target="#dr" type="button" role="tab" aria-controls="dr" aria-selected="false">Dr. Öğr. Üyesi</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="doc-tab" data-bs-toggle="tab" data-bs-target="#doc" type="button" role="tab" aria-controls="doc" aria-selected="false">Doçent</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="prof-tab" data-bs-toggle="tab" data-bs-target="#prof" type="button" role="tab" aria-controls="prof" aria-selected="false">Profesör</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>İlan Başlığı</th>
+                    <th>Kadro Türü</th>
+                    <th>Birim</th>
+                    <th>Anabilim Dalı</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (ilanlar.length > 0) { %>
+                    <% ilanlar.forEach(ilan => { %>
+                      <% if (ilan.durum === 'Aktif') { %>
+                        <tr>
+                          <td><%= ilan.baslik %></td>
+                          <td><%= ilan.kadro_turu %></td>
+                          <td><%= ilan.birim %></td>
+                          <td><%= ilan.anabilim_dali %></td>
+                          <td><%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td><%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td>
+                            <a href="/aday/ilan/<%= ilan.id %>" class="btn btn-primary btn-sm">Detay</a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="7" class="text-center">Aktif ilan bulunamadı.</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="dr" role="tabpanel" aria-labelledby="dr-tab">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>İlan Başlığı</th>
+                    <th>Birim</th>
+                    <th>Anabilim Dalı</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                    const drIlanlar = ilanlar.filter(ilan => ilan.kadro_turu === 'Dr. Öğr. Üyesi');
+                    if (drIlanlar.length > 0) { 
+                  %>
+                    <% drIlanlar.forEach(ilan => { %>
+                      <% if (ilan.durum === 'Aktif') { %>
+                        <tr>
+                          <td><%= ilan.baslik %></td>
+                          <td><%= ilan.birim %></td>
+                          <td><%= ilan.anabilim_dali %></td>
+                          <td><%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td><%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td>
+                            <a href="/aday/ilan/<%= ilan.id %>" class="btn btn-primary btn-sm">Detay</a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center">Dr. Öğr. Üyesi için aktif ilan bulunamadı.</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="doc" role="tabpanel" aria-labelledby="doc-tab">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>İlan Başlığı</th>
+                    <th>Birim</th>
+                    <th>Anabilim Dalı</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                    const docIlanlar = ilanlar.filter(ilan => ilan.kadro_turu === 'Doçent');
+                    if (docIlanlar.length > 0) { 
+                  %>
+                    <% docIlanlar.forEach(ilan => { %>
+                      <% if (ilan.durum === 'Aktif') { %>
+                        <tr>
+                          <td><%= ilan.baslik %></td>
+                          <td><%= ilan.birim %></td>
+                          <td><%= ilan.anabilim_dali %></td>
+                          <td><%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td><%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td>
+                            <a href="/aday/ilan/<%= ilan.id %>" class="btn btn-primary btn-sm">Detay</a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center">Doçent için aktif ilan bulunamadı.</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="prof" role="tabpanel" aria-labelledby="prof-tab">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>İlan Başlığı</th>
+                    <th>Birim</th>
+                    <th>Anabilim Dalı</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                    const profIlanlar = ilanlar.filter(ilan => ilan.kadro_turu === 'Profesör');
+                    if (profIlanlar.length > 0) { 
+                  %>
+                    <% profIlanlar.forEach(ilan => { %>
+                      <% if (ilan.durum === 'Aktif') { %>
+                        <tr>
+                          <td><%= ilan.baslik %></td>
+                          <td><%= ilan.birim %></td>
+                          <td><%= ilan.anabilim_dali %></td>
+                          <td><%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td><%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></td>
+                          <td>
+                            <a href="/aday/ilan/<%= ilan.id %>" class="btn btn-primary btn-sm">Detay</a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center">Profesör için aktif ilan bulunamadı.</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+</body>
+</html>
+  

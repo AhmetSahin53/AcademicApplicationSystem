@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>Jüri Değerlendirmeleri</h2>
+    <%- include('../partials/messages') %>
+    
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>İlan Başlığı</th>
+                <th>Kadro Türü</th>
+                <th>Birim</th>
+                <th>Atanma Tarihi</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (ilanlar.length > 0) { %>
+                <% ilanlar.forEach(ilan => { %>
+                  <tr>
+                    <td><%= ilan.baslik %></td>
+                    <td><%= ilan.kadro_turu %></td>
+                    <td><%= ilan.birim %></td>
+                    <td><%= new Date(ilan.atanma_tarihi).toLocaleDateString('tr-TR') %></td>
+                    <td>
+                      <a href="/juri/ilan-basvurulari/<%= ilan.id %>" class="btn btn-primary btn-sm">Başvuruları Görüntüle</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="5" class="text-center">Henüz jüri üyesi olarak atanmadınız.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer') %>
+</body>
+</html>

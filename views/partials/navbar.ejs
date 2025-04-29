@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="/">KOÜ Akademik Başvuru</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Ana Sayfa</a>
+        </li>
+        <% if (locals.user) { %>
+          <% if (locals.user.role === 'aday') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/aday">İlanlar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/aday/basvurularim">Başvurularım</a>
+            </li>
+          <% } else if (locals.user.role === 'admin') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">İlanlar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/ilan-ekle">Yeni İlan</a>
+            </li>
+          <% } else if (locals.user.role === 'yonetici') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/yonetici">İlanlar</a>
+            </li>
+          <% } else if (locals.user.role === 'juri') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/juri">Değerlendirmelerim</a>
+            </li>
+          <% } %>
+        <% } %>
+      </ul>
+      <ul class="navbar-nav">
+        <% if (locals.user) { %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= locals.user.name %>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/auth/logout">Çıkış Yap</a></li>
+            </ul>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/login">Giriş Yap</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/register">Kayıt Ol</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

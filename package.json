@@ -1,0 +1,40 @@
+{
+  "name": "akademik-basvuru-sistemi",
+  "version": "1.0.0",
+  "description": "Kocaeli Üniversitesi Akademik Personel Başvuru Sistemi",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:test": "node db-test.js"
+  },
+  "keywords": [
+    "akademik",
+    "başvuru",
+    "personel",
+    "kocaeli",
+    "üniversite"
+  ],
+  "author": "KOU BSM",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "method-override": "^3.0.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.6.1",
+    "@aws-sdk/client-s3": "^3.427.0",
+    "@aws-sdk/lib-storage": "^3.427.0",
+    "multer-s3": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

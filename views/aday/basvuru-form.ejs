@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h2>Başvuru Formu</h2>
+    <h4><%= ilan.baslik %> - <%= ilan.kadro_turu %></h4>
+    <%- include('../partials/messages') %>
+    
+    <form action="/aday/basvuru/<%= ilan.id %>" method="POST" enctype="multipart/form-data">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Genel Bilgiler</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Kadro Türü:</strong> <%= ilan.kadro_turu %></p>
+              <p><strong>Birim:</strong> <%= ilan.birim %></p>
+              <p><strong>Anabilim Dalı:</strong> <%= ilan.anabilim_dali %></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Başlangıç Tarihi:</strong> <%= new Date(ilan.baslangic_tarihi).toLocaleDateString('tr-TR') %></p>
+              <p><strong>Bitiş Tarihi:</strong> <%= new Date(ilan.bitis_tarihi).toLocaleDateString('tr-TR') %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Yayınlar</h5>
+        </div>
+        <div class="card-body">
+          <div id="yayinlar-container">
+            <div class="yayin-item mb-3 p-3 border rounded">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="yayin-turu-1" class="form-label">Yayın Türü</label>
+                    <select class="form-select" id="yayin-turu-1" name="yayinlar[0][tur]" required>
+                      <option value="">Seçiniz</option>
+                      <option value="A1">A1 - SCI, SCI-Expanded, SSCI veya AHCI kapsamındaki dergilerde yayımlanmış makale</option>
+                      <option value="A2">A2 - Uluslararası alan indekslerinde taranan dergilerde yayımlanmış makale</option>
+                      <option value="A3">A3 - ULAKBİM TR Dizin tarafından taranan ulusal hakemli dergilerde yayımlanmış makale</option>
+                      <option value="A4">A4 - Diğer uluslararası hakemli dergilerde yayımlanmış makale</option>
+                      <option value="A5">A5 - Diğer ulusal hakemli dergilerde yayımlanmış makale</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="yayin-bilgisi-1" class="form-label">Yayın Bilgisi</label>
+                    <input type="text" class="form-control" id="yayin-bilgisi-1" name="yayinlar[0][bilgi]" placeholder="Yazar(lar), Başlık, Dergi, Cilt, Sayı, Sayfa, Yıl" required>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="mb-3 form-check mt-4">
+                    <input type="checkbox" class="form-check-input" id="baslica-yazar-1" name="yayinlar[0][baslica_yazar]">
+                    <label class="form-check-label" for="baslica-yazar-1">Başlıca Yazar</label>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="yayin-belgesi-1" class="form-label">Yayın Belgesi</label>
+                <input type="file" class="form-control" id="yayin-belgesi-1" name="belgeler" required>
+                <div class="form-text">Yayının tam metnini ve dergi bilgilerini içeren belgeyi yükleyiniz.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-primary" id="add-yayin">Yayın Ekle</button>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Atıflar</h5>
+        </div>
+        <div class="card-body">
+          <div id="atiflar-container">
+            <div class="atif-item mb-3 p-3 border rounded">
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="mb-3">
+                    <label for="atif-bilgisi-1" class="form-label">Atıf Bilgisi</label>
+                    <input type="text" class="form-control" id="atif-bilgisi-1" name="atiflar[0]" placeholder="Atıf Yapan Yazar(lar), Başlık, Dergi, Cilt, Sayı, Sayfa, Yıl" required>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="atif-belgesi-1" class="form-label">Atıf Belgesi</label>
+                <input type="file" class="form-control" id="atif-belgesi-1" name="belgeler" required>
+                <div class="form-text">Atıfı gösteren belgeyi yükleyiniz.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-primary" id="add-atif">Atıf Ekle</button>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Konferans Yayınları</h5>
+        </div>
+        <div class="card-body">
+          <div id="konferanslar-container">
+            <div class="konferans-item mb-3 p-3 border rounded">
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="mb-3">
+                    <label for="konferans-bilgisi-1" class="form-label">Konferans Bilgisi</label>
+                    <input type="text" class="form-control" id="konferans-bilgisi-1" name="konferanslar[0]" placeholder="Yazar(lar), Başlık, Konferans Adı, Yer, Tarih" required>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="konferans-belgesi-1" class="form-label">Konferans Belgesi</label>
+                <input type="file" class="form-control" id="konferans-belgesi-1" name="belgeler" required>
+                <div class="form-text">Konferans katılım belgesini ve bildiri tam metnini yükleyiniz.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-primary" id="add-konferans">Konferans Ekle</button>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Diğer Belgeler</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="ozgecmis" class="form-label">Özgeçmiş</label>
+            <input type="file" class="form-control" id="ozgecmis" name="belgeler" required>
+          </div>
+          <div class="mb-3">
+            <label for="diploma" class="form-label">Diploma</label>
+            <input type="file" class="form-control" id="diploma" name="belgeler" required>
+          </div>
+          <div class="mb-3">
+            <label for="diger-belgeler" class="form-label">Diğer Belgeler (Varsa)</label>
+            <input type="file" class="form-control" id="diger-belgeler" name="belgeler" multiple>
+            <div class="form-text">Başvurunuzu destekleyecek diğer belgeleri yükleyebilirsiniz.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="d-flex justify-content-between mb-5">
+        <a href="/aday/ilan/<%= ilan.id %>" class="btn btn-secondary">Vazgeç</a>
+        <button type="submit" class="btn btn-primary">Başvuruyu Tamamla</button>
+      </div>
+    </form>
+  </div>
+  
+  <%- include('../partials/footer') %>
+  
+  <script>
+    $(document).ready(function() {
+      // Yayın ekleme
+      let yayinCount = 1;
+      $('#add-yayin').click(function() {
+        yayinCount++;
+        const newYayin = `
+          <div class="yayin-item mb-3 p-3 border rounded">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="yayin-turu-${yayinCount}" class="form-label">Yayın Türü</label>
+                  <select class="form-select" id="yayin-turu-${yayinCount}" name="yayinlar[${yayinCount-1}][tur]" required>
+                    <option value="">Seçiniz</option>
+                    <option value="A1">A1 - SCI, SCI-Expanded, SSCI veya AHCI kapsamındaki dergilerde yayımlanmış makale</option>
+                    <option value="A2">A2 - Uluslararası alan indekslerinde taranan dergilerde yayımlanmış makale</option>
+                    <option value="A3">A3 - ULAKBİM TR Dizin tarafından taranan ulusal hakemli dergilerde yayımlanmış makale</option>
+                    <option value="A4">A4 - Diğer uluslararası hakemli dergilerde yayımlanmış makale</option>
+                    <option value="A5">A5 - Diğer ulusal hakemli dergilerde yayımlanmış makale</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="yayin-bilgisi-${yayinCount}" class="form-label">Yayın Bilgisi</label>
+                  <input type="text" class="form-control" id="yayin-bilgisi-${yayinCount}" name="yayinlar[${yayinCount-1}][bilgi]" placeholder="Yazar(lar), Başlık, Dergi, Cilt, Sayı, Sayfa, Yıl" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3 form-check mt-4">
+                  <input type="checkbox" class="form-check-input" id="baslica-yazar-${yayinCount}" name="yayinlar[${yayinCount-1}][baslica_yazar]">
+                  <label class="form-check-label" for="baslica-yazar-${yayinCount}">Başlıca Yazar</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="yayin-belgesi-${yayinCount}" class="form-label">Yayın Belgesi</label>
+              <input type="file" class="form-control" id="yayin-belgesi-${yayinCount}" name="belgeler" required>
+              <div class="form-text">Yayının tam metnini ve dergi bilgilerini içeren belgeyi yükleyiniz.</div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-item">Kaldır</button>
+          </div>
+        `;
+        $('#yayinlar-container').append(newYayin);
+      });
+      
+      // Atıf ekleme
+      let atifCount = 1;
+      $('#add-atif').click(function() {
+        atifCount++;
+        const newAtif = `
+          <div class="atif-item mb-3 p-3 border rounded">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="mb-3">
+                  <label for="atif-bilgisi-${atifCount}" class="form-label">Atıf Bilgisi</label>
+                  <input type="text" class="form-control" id="atif-bilgisi-${atifCount}" name="atiflar[${atifCount-1}]" placeholder="Atıf Yapan Yazar(lar), Başlık, Dergi, Cilt, Sayı, Sayfa, Yıl" required>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="atif-belgesi-${atifCount}" class="form-label">Atıf Belgesi</label>
+              <input type="file" class="form-control" id="atif-belgesi-${atifCount}" name="belgeler" required>
+              <div class="form-text">Atıfı gösteren belgeyi yükleyiniz.</div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-item">Kaldır</button>
+          </div>
+        `;
+        $('#atiflar-container').append(newAtif);
+      });
+      
+      // Konferans ekleme
+      let konferansCount = 1;
+      $('#add-konferans').click(function() {
+        konferansCount++;
+        const newKonferans = `
+          <div class="konferans-item mb-3 p-3 border rounded">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="mb-3">
+                  <label for="konferans-bilgisi-${konferansCount}" class="form-label">Konferans Bilgisi</label>
+                  <input type="text" class="form-control" id="konferans-bilgisi-${konferansCount}" name="konferanslar[${konferansCount-1}]" placeholder="Yazar(lar), Başlık, Konferans Adı, Yer, Tarih" required>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="konferans-belgesi-${konferansCount}" class="form-label">Konferans Belgesi</label>
+              <input type="file" class="form-control" id="konferans-belgesi-${konferansCount}" name="belgeler" required>
+              <div class="form-text">Konferans katılım belgesini ve bildiri tam metnini yükleyiniz.</div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-item">Kaldır</button>
+          </div>
+        `;
+        $('#konferanslar-container').append(newKonferans);
+      });
+      
+      // Öğe kaldırma
+      $(document).on('click', '.remove-item', function() {
+        $(this).closest('.yayin-item, .atif-item, .konferans-item').remove();
+      });
+    });
+  </script>
+</body>
+</html>
