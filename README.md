@@ -27,3 +27,5 @@ MySQL veya başka bir SQL veritabanı
 ![Anasayfa](https://github.com/user-attachments/assets/4064c52b-1555-4dd1-8735-c159ca5aa4d4)
 ![Kayıt](https://github.com/user-attachments/assets/8128f698-11fd-4b6e-88af-e498599f2a9e)
 ![Aday](https://github.com/user-attachments/assets/a5d8e0ba-25a7-424b-a4d1-f474fcf7d79c)
+![juri](https://github.com/user-attachments/assets/bfff0e36-50ab-44fa-8192-0528873a2c2c)
+![admin ekran](https://github.com/user-attachments/assets/ff2ba962-c617-4d5e-934f-6512381678b4)
