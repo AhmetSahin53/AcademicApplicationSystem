@@ -22,3 +22,5 @@ Diğer: Express middleware'leri
 Gereksinimler
 Node.js (v14 veya üzeri)
 MySQL veya başka bir SQL veritabanı
+
+![image](https://github.com/user-attachments/assets/c0fba74f-41e0-4925-96bc-3e7e901bc422)
