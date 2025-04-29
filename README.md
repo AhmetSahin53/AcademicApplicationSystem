@@ -23,4 +23,7 @@ Gereksinimler
 Node.js (v14 veya üzeri)
 MySQL veya başka bir SQL veritabanı
 
-![image](https://github.com/user-attachments/assets/c0fba74f-41e0-4925-96bc-3e7e901bc422)
+
+![Anasayfa](https://github.com/user-attachments/assets/4064c52b-1555-4dd1-8735-c159ca5aa4d4)
+![Kayıt](https://github.com/user-attachments/assets/8128f698-11fd-4b6e-88af-e498599f2a9e)
+![Aday](https://github.com/user-attachments/assets/a5d8e0ba-25a7-424b-a4d1-f474fcf7d79c)
